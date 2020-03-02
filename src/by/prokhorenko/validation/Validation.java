@@ -1,5 +1,6 @@
 package by.prokhorenko.validation;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class Validation {
@@ -14,5 +15,9 @@ public class Validation {
 
     public static boolean isMoreThanZero(long num){
         return num > 0;
+    }
+
+    public static boolean datePeriodIsCorrect(Date startPeriod, Date endPeriod){
+        return startPeriod.before(endPeriod);
     }
 }

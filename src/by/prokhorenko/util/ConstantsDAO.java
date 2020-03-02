@@ -6,7 +6,7 @@ public class ConstantsDAO {
 
     static {
         StringBuilder link = new StringBuilder();
-        link.append("src\\resources\\Users.txt");
+        link.append("resources\\Users.txt");
         LINK_USERS = link.toString();
     }
 
@@ -14,7 +14,7 @@ public class ConstantsDAO {
 
     static {
         StringBuilder link = new StringBuilder();
-        link.append("src\\resources\\Transactions.txt");
+        link.append("resources\\Transactions.txt");
         LINK_TRANSACTIONS = link.toString();
     }
 

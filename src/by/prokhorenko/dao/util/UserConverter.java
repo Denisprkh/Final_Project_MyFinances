@@ -23,8 +23,7 @@ public class UserConverter {
             throw new InvalidFieldException(mes);
         }
 
-        String result = user.getLogin() + DELIMETER + user.getPassword() + DELIMETER + user.getId() + DELIMETER
-                + user.getBalance();
+        String result = user.getLogin() + DELIMETER + user.getPassword() + DELIMETER + user.getId();
 
         return result;
     }
@@ -34,6 +33,10 @@ public class UserConverter {
             String mes = "Data is null";
             throw new InvalidParameterException(mes);
         }
+        User user = new User();
+        if(data.isEmpty()){
+            return user;
+        }
 
         String[] usersFields = data.split(REGEX);
         if(usersFields.length != VALID_LENGTH){
@@ -41,8 +44,7 @@ public class UserConverter {
             throw new InvalidFieldException(mes);
         }
 
-        User user = new User(usersFields[0],usersFields[1],Long.parseLong(usersFields[2]),
-                new BigDecimal(usersFields[3]));
+        user = new User(usersFields[0],usersFields[1],Long.parseLong(usersFields[2]));
 
         return user;
     }

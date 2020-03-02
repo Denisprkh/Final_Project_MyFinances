@@ -1,0 +1,5 @@
+Pasha|1231fjsa|1|0
+Denis|12312|1|0
+Fedya|12312|2|0
+Kolya|12312|3|0
+Sasha|12312|4|0

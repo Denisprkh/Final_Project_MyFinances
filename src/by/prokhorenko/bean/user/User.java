@@ -14,11 +14,11 @@ public class User implements Serializable {
     private String login;
     private String password;
     private long id ;
-    private BigDecimal balance;
+
 
     public User(){
         super();
-        this.id = ++usersCounter;
+        this.id = -1;
         this.login = "user" + id;
         this.password = "user" + id;
     }
@@ -28,15 +28,15 @@ public class User implements Serializable {
         this.login = login;
         this.password = password;
         this.id = ++usersCounter;
-        this.balance = new BigDecimal(ZERO);
+
     }
 
-    public User(String login, String password,long id, BigDecimal balance){
+    public User(String login, String password,long id){
         super();
         this.login = login;
         this.password = password;
         this.id = id;
-        this.balance = balance;
+
     }
 
     public String getLogin() {
@@ -63,13 +63,6 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -78,13 +71,12 @@ public class User implements Serializable {
         User user = (User) o;
         return id == user.id &&
                 Objects.equals(login, user.login) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(balance, user.balance);
+                Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, password, id, balance);
+        return Objects.hash(login, password, id);
     }
 
     @Override
@@ -93,7 +85,6 @@ public class User implements Serializable {
                 "login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", id=" + id +
-                ", balance=" + balance +
                 '}';
     }
 }
