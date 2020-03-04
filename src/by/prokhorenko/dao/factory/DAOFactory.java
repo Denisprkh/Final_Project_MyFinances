@@ -1,16 +1,15 @@
 package by.prokhorenko.dao.factory;
 
-import by.prokhorenko.bean.transaction.Transaction;
-import by.prokhorenko.dao.TransactionDAO;
-import by.prokhorenko.dao.UserDAO;
+import by.prokhorenko.dao.ITransactionDAO;
+import by.prokhorenko.dao.IUserDAO;
 import by.prokhorenko.dao.impl.FileTransactionDAO;
 import by.prokhorenko.dao.impl.FileUserDAO;
 
 public class DAOFactory {
     private final static DAOFactory instance = new DAOFactory();
 
-    private final UserDAO userDAO = new FileUserDAO();
-    private final TransactionDAO  transactionDAO = new FileTransactionDAO();
+    private final IUserDAO userDAO = new FileUserDAO();
+    private final ITransactionDAO transactionDAO = new FileTransactionDAO();
 
     private DAOFactory() {};
 
@@ -18,11 +17,11 @@ public class DAOFactory {
         return instance;
     }
 
-    public UserDAO getUserDAO() {
+    public IUserDAO getUserDAO() {
         return userDAO;
     }
 
-    public TransactionDAO getTransactionDAO() {
+    public ITransactionDAO getTransactionDAO() {
         return transactionDAO;
     }
 }

@@ -3,22 +3,22 @@ package by.prokhorenko.service.impl;
 import by.prokhorenko.bean.transaction.Transaction;
 import by.prokhorenko.bean.transaction.TransactionType;
 import by.prokhorenko.bean.user.User;
-import by.prokhorenko.dao.TransactionDAO;
-import by.prokhorenko.dao.UserDAO;
+import by.prokhorenko.dao.ITransactionDAO;
+import by.prokhorenko.dao.IUserDAO;
 import by.prokhorenko.dao.exception.DAOException;
 import by.prokhorenko.dao.factory.DAOFactory;
-import by.prokhorenko.service.TransactionService;
+import by.prokhorenko.service.ITransactionService;
 import by.prokhorenko.service.exception.ServiceException;
 import by.prokhorenko.validation.Validation;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class TransactionServiceImpl implements TransactionService {
+public class TransactionServiceImpl implements ITransactionService {
 
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private TransactionDAO transactionDAO = daoFactory.getTransactionDAO();
-    private UserDAO userDAO = daoFactory.getUserDAO();
+    private ITransactionDAO transactionDAO = daoFactory.getTransactionDAO();
+    private IUserDAO userDAO = daoFactory.getUserDAO();
 
     @Override
     public void add(Transaction transaction) throws ServiceException {
@@ -27,6 +27,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new ServiceException(mes);
         }
         try {
+
             transactionDAO.add(transaction);
         }catch (DAOException e){
             String mes = "Transaction adding error";

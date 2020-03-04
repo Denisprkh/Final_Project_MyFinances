@@ -1,6 +1,5 @@
 package by.prokhorenko.service.factory;
 
-import by.prokhorenko.service.UserService;
 import by.prokhorenko.service.impl.TransactionServiceImpl;
 import by.prokhorenko.service.impl.UserServiceImpl;
 

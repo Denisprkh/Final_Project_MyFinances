@@ -1,11 +1,12 @@
 package by.prokhorenko.dao.impl;
 
 import by.prokhorenko.bean.transaction.Transaction;
-import by.prokhorenko.dao.TransactionDAO;
+import by.prokhorenko.bean.user.User;
+import by.prokhorenko.dao.ITransactionDAO;
 import by.prokhorenko.dao.exception.DAOException;
 import by.prokhorenko.dao.exception.InvalidFieldException;
 import by.prokhorenko.dao.exception.InvalidParameterException;
-import by.prokhorenko.dao.util.TransactionConverter;
+import by.prokhorenko.util.convertor.TransactionConverter;
 import by.prokhorenko.util.FileUtilDAO;
 import by.prokhorenko.util.exception.UtilException;
 import by.prokhorenko.validation.Validation;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 
 import static by.prokhorenko.util.ConstantsDAO.LINK_TRANSACTIONS;
 
-public class FileTransactionDAO implements TransactionDAO {
+public class FileTransactionDAO implements ITransactionDAO {
     @Override
     public void add(Transaction transaction) throws DAOException {
         if(Validation.isNull(transaction)){

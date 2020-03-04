@@ -31,7 +31,8 @@ public class FileUtilDAO {
         long fileLengthBeforeRight = file.length();
 
         try(FileWriter fileWriter = new FileWriter(file,true)){
-            fileWriter.append(text + "\n");
+            fileWriter.append(text);
+            fileWriter.append("\n");
 
 
         }catch (IOException e){

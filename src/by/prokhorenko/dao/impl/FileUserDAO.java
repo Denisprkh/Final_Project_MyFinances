@@ -1,12 +1,12 @@
 package by.prokhorenko.dao.impl;
 
 import by.prokhorenko.bean.user.User;
-import by.prokhorenko.dao.UserDAO;
+import by.prokhorenko.dao.IUserDAO;
 import by.prokhorenko.dao.exception.DAOException;
 import by.prokhorenko.dao.exception.InvalidFieldException;
 import by.prokhorenko.dao.exception.InvalidParameterException;
 import static by.prokhorenko.constants.ConstantDigits.*;
-import by.prokhorenko.dao.util.UserConverter;
+import by.prokhorenko.util.convertor.UserConverter;
 import by.prokhorenko.util.FileUtilDAO;
 import by.prokhorenko.util.exception.UtilException;
 import by.prokhorenko.validation.Validation;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import static by.prokhorenko.util.ConstantsDAO.LINK_USERS;
 
-public class FileUserDAO implements UserDAO {
+public class FileUserDAO implements IUserDAO {
     @Override
     public void add(User user) throws DAOException {
         if(Validation.isNull(user)){
@@ -44,6 +44,23 @@ public class FileUserDAO implements UserDAO {
 
         for(User user : users){
             if(user.getId() == id){
+                return user;
+            }
+        }
+        String mes = "User with such id doesn't exist";
+        throw new DAOException(mes);
+    }
+
+    @Override
+    public User get(String login) throws DAOException {
+        if(Validation.isNull(login)){
+            String mes = "Login is null";
+            throw new DAOException(mes);
+        }
+        ArrayList<User> users = getAll();
+
+        for(User user : users){
+            if(user.getLogin().equals(login)){
                 return user;
             }
         }

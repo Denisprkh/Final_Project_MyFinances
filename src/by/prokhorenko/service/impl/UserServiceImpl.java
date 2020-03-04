@@ -2,10 +2,10 @@ package by.prokhorenko.service.impl;
 
 import by.prokhorenko.bean.transaction.Transaction;
 import by.prokhorenko.bean.user.User;
-import by.prokhorenko.dao.UserDAO;
+import by.prokhorenko.dao.IUserDAO;
 import by.prokhorenko.dao.exception.DAOException;
 import by.prokhorenko.dao.factory.DAOFactory;
-import by.prokhorenko.service.UserService;
+import by.prokhorenko.service.IUserService;
 import by.prokhorenko.service.exception.ServiceException;
 import by.prokhorenko.validation.Validation;
 
@@ -14,20 +14,20 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements IUserService {
 
     private DAOFactory daoFactory = DAOFactory.getInstance();
-    private UserDAO userDAO = daoFactory.getUserDAO();
+    private IUserDAO userDAO = daoFactory.getUserDAO();
     private TransactionServiceImpl transactionService = new TransactionServiceImpl();
 
     @Override
     public boolean registration(String login, String password) throws ServiceException {
         if(Validation.isNull(login) || login.isEmpty()){
-            String mes = "Login has null or empty value";
+            String mes = "Login_has_null_or_empty_value";
             throw new ServiceException(mes);
         }
         if(Validation.isNull(password) || password.isEmpty()){
-            String mes = "Password has null or empty value";
+            String mes = "Password_has_null_or_empty_value";
             throw new ServiceException(mes);
         }
 
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
             try {
                 userDAO.add(user);
             }catch (DAOException e){
-                String mes = "Error with adding user";
+                String mes = "Error_with_adding_user";
                 throw new ServiceException(mes,e);
             }
 
@@ -62,11 +62,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean signIn(String login, String password) throws ServiceException {
         if(Validation.isNull(login) || login.isEmpty()){
-            String mes = "Login has null or empty value";
+            String mes = "Login_has_null_or_empty_value";
             throw new ServiceException(mes);
         }
         if(Validation.isNull(password) || password.isEmpty()){
-            String mes = "Password has null or empty value";
+            String mes = "Password_has_null_or_empty_value";
             throw new ServiceException(mes);
         }
 
@@ -93,9 +93,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User get(String login) throws ServiceException {
+        if(Validation.isNull(login)){
+            String mes = "Login_has_null_value";
+            throw new ServiceException(mes);
+        }
+        User user;
+        try {
+             user = userDAO.get(login);
+        } catch (DAOException e) {
+            String mes = "Getting_user_by_login_error";
+            throw new ServiceException(mes,e);
+        }
+        return user;
+    }
+
+    @Override
     public BigDecimal getSumOfAllUsersExpenses(User user) throws ServiceException {
         if(Validation.isNull(user)){
-            String mes = "User has null value";
+            String mes = "User_has_null_value";
             throw new ServiceException(mes);
         }
 
@@ -111,7 +127,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public BigDecimal getSumOfAllUsersIncomes(User user) throws ServiceException {
         if(Validation.isNull(user)){
-            String mes = "User has null value";
+            String mes = "User_has_null_value";
             throw new ServiceException(mes);
         }
 
@@ -127,15 +143,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public BigDecimal getSumOfAllUsersExpensesInAPeriod(User user, Date startPeriod, Date endPeriod) throws ServiceException {
         if(Validation.isNull(user)){
-            String mes = "User has null value";
+            String mes = "User_has_null_value";
             throw new ServiceException(mes);
         }
         if(Validation.isNull(startPeriod) || Validation.isNull(endPeriod)){
-            String mes = "Date has null value";
+            String mes = "Date_has_null_value";
             throw new ServiceException(mes);
         }
         if(!Validation.datePeriodIsCorrect(startPeriod,endPeriod)){
-            String mes = "Incorrect date period";
+            String mes = "Incorrect_date_period";
             throw new ServiceException(mes);
         }
 
@@ -152,15 +168,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public BigDecimal getSumOfAllUsersIncomesInAPeriod(User user, Date startPeriod, Date endPeriod) throws ServiceException {
         if(Validation.isNull(user)){
-            String mes = "User has null value";
+            String mes = "User_has_null_value";
             throw new ServiceException(mes);
         }
         if(Validation.isNull(startPeriod) || Validation.isNull(endPeriod)){
-            String mes = "Date has null value";
+            String mes = "Date_has_null_value";
             throw new ServiceException(mes);
         }
         if(!Validation.datePeriodIsCorrect(startPeriod,endPeriod)){
-            String mes = "Incorrect date period";
+            String mes = "Incorrect_date_period";
             throw new ServiceException(mes);
         }
 
