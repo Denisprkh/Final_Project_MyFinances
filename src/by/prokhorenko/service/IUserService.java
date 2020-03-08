@@ -13,6 +13,7 @@ public interface IUserService {
     boolean signIn(String login, String password) throws ServiceException;
     void logOut() throws ServiceException;
     User get(String login) throws ServiceException;
+    BigDecimal getBalance(String login) throws ServiceException;
     BigDecimal getSumOfAllUsersTransactionsOfCertainTypeInAPeriod
             (User user, Date startPeriod, Date endPeriod, TransactionType transactionType) throws ServiceException;
     BigDecimal getSumOfAllUsersTransactionsOfCertainType(User user, TransactionType transactionType)

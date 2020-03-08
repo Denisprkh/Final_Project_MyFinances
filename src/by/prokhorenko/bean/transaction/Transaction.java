@@ -9,7 +9,7 @@ public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static long transactionCounter = 0;
+    private static long transactionCounter;
 
     private long transactionId;
     private Date date;

@@ -72,7 +72,8 @@ public class main {
                         "Enter 3 to show all expenses\nEnter 4 to show all incomes" +
                         "\nEnter 5 to show sum of all expenses\nEnter 6 to show sum of all incomes" +
                         "\nEnter 7 to show all transactions in a period\n" +
-                        "Enter 8 to show transactions of certain type in a period\nEnter 9 to logOut");
+                        "Enter 8 to show transactions of certain type in a period\nEnter 9 to logOut\n" +
+                        "Enter 10 to show balance");
             }
 
             viewCommand = ScannerUtil.getIntFromConsol();
@@ -178,6 +179,13 @@ public class main {
                         System.out.println("Problems happened, please, try again, a little bit later");
                     }
                     break;
+                case 10:
+                    String balanceRequest = "get_balance login=" + userLogin;
+                    try{
+                        System.out.println("\n"+controller.executeTask(balanceRequest)+"\n");
+                    }catch(ControllerException e){
+                        System.out.println("Problems happened, please, try again, a little bit later");
+                    }
 
 
 

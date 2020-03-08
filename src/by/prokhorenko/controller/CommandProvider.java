@@ -22,6 +22,7 @@ public class CommandProvider {
         repository.put(CommandName.GET_ALL_TRANSACTIONS_OF_CERTAIN_TYPE_IN_A_PERIOD,
                 new GetAllTransactionsOfCertainTypeInAPeriod());
         repository.put(CommandName.LOG_OUT,new LogOut());
+        repository.put(CommandName.GET_BALANCE, new GetBalance());
     }
 
     public Command getCommand(String name) {

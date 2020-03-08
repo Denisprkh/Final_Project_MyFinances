@@ -114,6 +114,20 @@ public class UserServiceImpl implements IUserService {
         return user;
     }
 
+    @Override
+    public BigDecimal getBalance(String login) throws ServiceException {
+        if(Validation.isNull(login)){
+            String mes = "Login has null value";
+            throw new ServiceException(mes);
+        }
+
+        User user = get(login);
+        BigDecimal balance = getSumOfAllUsersTransactionsOfCertainType(user,TransactionType.INCOME).subtract(
+                getSumOfAllUsersTransactionsOfCertainType(user,TransactionType.EXPENSE));
+
+        return balance;
+    }
+
     public BigDecimal getSumOfAllUsersTransactionsOfCertainType(User user, TransactionType transactionType)
             throws ServiceException {
         if(Validation.isNull(user)){
