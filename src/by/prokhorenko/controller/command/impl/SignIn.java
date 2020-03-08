@@ -10,19 +10,22 @@ import by.prokhorenko.util.Parser;
 
 public class SignIn implements Command {
     @Override
-    public String execute(String request){
+    public String execute(String request) throws ControllerException {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         UserServiceImpl userService = serviceFactory.getUserService();
 
         String login = Parser.getValueParam(request,"login");
         String password = Parser.getValueParam(request,"password");
-        boolean result = false;
+        boolean result;
         try {
-            if(userService.signIn(login,password)){
-                result = true;
-            }
+
+            result = (userService.signIn(login,password));
+
+
         } catch (ServiceException e) {
-            e.printStackTrace();
+            //write log
+            String mes = "Signing in error";
+            throw new ControllerException(mes,e);
         }
 
         return result ? "You are entered! Welcome" : "Something went bad, please try again";

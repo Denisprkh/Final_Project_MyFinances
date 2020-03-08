@@ -1,11 +1,9 @@
 package by.prokhorenko.dao;
 
-import by.prokhorenko.bean.transaction.Transaction;
 import by.prokhorenko.bean.user.User;
 import by.prokhorenko.dao.exception.DAOException;
-
 import java.util.ArrayList;
-import java.util.List;
+
 
 public interface IUserDAO {
     void add(User user) throws DAOException;

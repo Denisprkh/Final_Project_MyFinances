@@ -1,6 +1,7 @@
 package by.prokhorenko.service.impl;
 
 import by.prokhorenko.bean.transaction.Transaction;
+import by.prokhorenko.bean.transaction.TransactionType;
 import by.prokhorenko.bean.user.User;
 import by.prokhorenko.dao.IUserDAO;
 import by.prokhorenko.dao.exception.DAOException;
@@ -47,8 +48,8 @@ public class UserServiceImpl implements IUserService {
                return false;
             }
         }
-
-        User user = new User(login,password);
+        long id = allUsers.get(allUsers.size() - 1).getId() + 1;
+        User user = new User(login,password,id);
             try {
                 userDAO.add(user);
             }catch (DAOException e){
@@ -93,102 +94,74 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public void logOut() throws ServiceException {
+        //used and implemented in view and for view
+    }
+
+    @Override
     public User get(String login) throws ServiceException {
         if(Validation.isNull(login)){
-            String mes = "Login_has_null_value";
+            String mes = "Login has null value";
             throw new ServiceException(mes);
         }
         User user;
         try {
              user = userDAO.get(login);
         } catch (DAOException e) {
-            String mes = "Getting_user_by_login_error";
+            String mes = "Getting user by login error";
             throw new ServiceException(mes,e);
         }
         return user;
     }
 
-    @Override
-    public BigDecimal getSumOfAllUsersExpenses(User user) throws ServiceException {
+    public BigDecimal getSumOfAllUsersTransactionsOfCertainType(User user, TransactionType transactionType)
+            throws ServiceException {
         if(Validation.isNull(user)){
-            String mes = "User_has_null_value";
+            String mes = "User has null value";
+            throw new ServiceException(mes);
+        }
+        if(Validation.isNull(transactionType)){
+            String mes = "TransactionType has null value";
             throw new ServiceException(mes);
         }
 
-        ArrayList<Transaction> allUsersExpenses = transactionService.getAllUsersExpenses(user);
+        ArrayList<Transaction> allUsersTransactionsOfCertainType =
+                transactionService.getAllUsersTransactionsOfCertainType(user,transactionType);
         BigDecimal result = new BigDecimal(BigInteger.ZERO);
-        for(Transaction transaction : allUsersExpenses){
+        for(Transaction transaction : allUsersTransactionsOfCertainType){
             result = result.add(transaction.getAmount());
         }
 
         return result;
     }
-
     @Override
-    public BigDecimal getSumOfAllUsersIncomes(User user) throws ServiceException {
+    public BigDecimal getSumOfAllUsersTransactionsOfCertainTypeInAPeriod
+            (User user, Date startPeriod, Date endPeriod,TransactionType transactionType) throws ServiceException {
         if(Validation.isNull(user)){
-            String mes = "User_has_null_value";
+            String mes = "User has null value";
             throw new ServiceException(mes);
         }
-
-        ArrayList<Transaction> allUsersIncomes = transactionService.getAllUsersIncomes(user);
-        BigDecimal result = new BigDecimal(BigInteger.ZERO);
-        for(Transaction transaction : allUsersIncomes){
-            result = result.add(transaction.getAmount());
-        }
-
-        return result;
-    }
-
-    @Override
-    public BigDecimal getSumOfAllUsersExpensesInAPeriod(User user, Date startPeriod, Date endPeriod) throws ServiceException {
-        if(Validation.isNull(user)){
-            String mes = "User_has_null_value";
+        if(Validation.isNull(transactionType)){
+            String mes = "Transaction type has null value";
             throw new ServiceException(mes);
         }
         if(Validation.isNull(startPeriod) || Validation.isNull(endPeriod)){
-            String mes = "Date_has_null_value";
+            String mes = "Date has null value";
             throw new ServiceException(mes);
         }
         if(!Validation.datePeriodIsCorrect(startPeriod,endPeriod)){
-            String mes = "Incorrect_date_period";
+            String mes = "Incorrect date period";
             throw new ServiceException(mes);
         }
 
-        ArrayList<Transaction> allUsersExpensesInAPeriod =
-                transactionService.getAllUsersExpensesInAPeriod(user,startPeriod,endPeriod);
+        ArrayList<Transaction> allUsersTransactionsOfCertainTypeInAPeriod =
+                transactionService.getAllUsersTransactionsOfCertainTypeInAPeriod(user,startPeriod,transactionType,endPeriod);
         BigDecimal result = new BigDecimal(BigInteger.ZERO);
-        for(Transaction transaction : allUsersExpensesInAPeriod){
+        for(Transaction transaction : allUsersTransactionsOfCertainTypeInAPeriod){
             result = result.add(transaction.getAmount());
         }
 
         return result;
     }
-
-    @Override
-    public BigDecimal getSumOfAllUsersIncomesInAPeriod(User user, Date startPeriod, Date endPeriod) throws ServiceException {
-        if(Validation.isNull(user)){
-            String mes = "User_has_null_value";
-            throw new ServiceException(mes);
-        }
-        if(Validation.isNull(startPeriod) || Validation.isNull(endPeriod)){
-            String mes = "Date_has_null_value";
-            throw new ServiceException(mes);
-        }
-        if(!Validation.datePeriodIsCorrect(startPeriod,endPeriod)){
-            String mes = "Incorrect_date_period";
-            throw new ServiceException(mes);
-        }
-
-        ArrayList<Transaction> allUsersIncomesInAPeriod =
-                transactionService.getAllUsersIncomesInAPeriod(user,startPeriod,endPeriod);
-        BigDecimal result = new BigDecimal(BigInteger.ZERO);
-        for(Transaction transaction : allUsersIncomesInAPeriod){
-            result = result.add(transaction.getAmount());
-        }
-
-        return result;
-    }
-
 
 }

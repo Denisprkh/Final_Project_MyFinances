@@ -15,11 +15,13 @@ public class CommandProvider {
         repository.put(CommandName.REGISTRATION, new Registration());
         repository.put(CommandName.SIGN_IN, new SignIn());
         repository.put(CommandName.ADD_TRANSACTION, new AddTransaction());
-        repository.put(CommandName.GET_ALL_EXPENSES, new GetAllExpenses());
-        repository.put(CommandName.GET_ALL_INCOMES, new GetAllIncomes());
-        repository.put(CommandName.GET_SUM_OF_ALL_EXPENSES, new GetSumOfAllExpenses());
+        repository.put(CommandName.GET_ALL_TRANSACTIONS_OF_CERTAIN_TYPE,new GetAllTransactionsOfCertainType());
+        repository.put(CommandName.GET_SUM_OF_TRANSACTIONS_OF_CERTAIN_TYPE, new GetSumOfTransactionsOfCertainType());
         repository.put(CommandName.GET_ALL_TRANSACTIONS, new GetAllTransactions());
-        repository.put(CommandName.GET_SUM_OF_ALL_INCOMES, new GetSumOfAllIncomes());
+        repository.put(CommandName.GET_ALL_TRANSACTIONS_IN_A_PERIOD, new GetAllTransactionsInAPeriod());
+        repository.put(CommandName.GET_ALL_TRANSACTIONS_OF_CERTAIN_TYPE_IN_A_PERIOD,
+                new GetAllTransactionsOfCertainTypeInAPeriod());
+        repository.put(CommandName.LOG_OUT,new LogOut());
     }
 
     public Command getCommand(String name) {
@@ -29,7 +31,7 @@ public class CommandProvider {
             commandName = CommandName.valueOf(name.toUpperCase());
             command = repository.get(commandName);
         } catch (Exception e) {
-            String mes = "Getting_command_error";
+            String mes = "Getting command error";
 
         }
         return command;

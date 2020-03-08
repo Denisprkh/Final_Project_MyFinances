@@ -1,19 +1,17 @@
 package by.prokhorenko.bean.user;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Objects;
 
-import static by.prokhorenko.constants.ConstantDigits.*;
 
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static int usersCounter = ZERO;
+
     private String login;
     private String password;
-    private long id ;
+    private long id;
 
 
     public User(){
@@ -23,21 +21,18 @@ public class User implements Serializable {
         this.password = "user" + id;
     }
 
-    public User(String login, String password){
+    public User(String login, String password, long id){
         super();
         this.login = login;
         this.password = password;
-        this.id = ++usersCounter;
 
-    }
-
-    public User(String login, String password,long id){
-        super();
-        this.login = login;
-        this.password = password;
         this.id = id;
 
     }
+
+
+
+
 
     public String getLogin() {
         return login;

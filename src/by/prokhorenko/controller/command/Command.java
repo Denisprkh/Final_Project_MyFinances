@@ -4,6 +4,6 @@ import by.prokhorenko.controller.exception.ControllerException;
 
 public interface Command {
 
-    String execute (String request);
+    String execute (String request) throws ControllerException;
 
 }

@@ -10,7 +10,7 @@ import by.prokhorenko.util.Parser;
 public class Registration implements Command {
 
     @Override
-    public String execute(String request) {
+    public String execute(String request) throws  ControllerException {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         IUserService userService = serviceFactory.getUserService();
 
@@ -19,12 +19,13 @@ public class Registration implements Command {
         String login = Parser.getValueParam(request,"login");;
         String password = Parser.getValueParam(request,"password");;
 
-        boolean result = false;
+        boolean result;
         try {
             result = userService.registration(login, password);
         } catch (ServiceException e) {
             //write log
-           return "Problems with registration, try again";
+            String mes = "Registration error";
+            throw new ControllerException(mes,e);
         }
 
         return result ? "Congratulations!You are registered !" : "User with such login is already registered!";

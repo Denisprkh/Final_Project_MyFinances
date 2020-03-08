@@ -1,18 +1,16 @@
 package by.prokhorenko.dao.impl;
 
 import by.prokhorenko.bean.transaction.Transaction;
-import by.prokhorenko.bean.user.User;
 import by.prokhorenko.dao.ITransactionDAO;
 import by.prokhorenko.dao.exception.DAOException;
-import by.prokhorenko.dao.exception.InvalidFieldException;
-import by.prokhorenko.dao.exception.InvalidParameterException;
+import by.prokhorenko.dao.exception.InvalidFieldDAOException;
+import by.prokhorenko.dao.exception.InvalidParameterDAOException;
 import by.prokhorenko.util.convertor.TransactionConverter;
 import by.prokhorenko.util.FileUtilDAO;
 import by.prokhorenko.util.exception.UtilException;
 import by.prokhorenko.validation.Validation;
 
 
-import static by.prokhorenko.constants.ConstantDigits.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -31,10 +29,10 @@ public class FileTransactionDAO implements ITransactionDAO {
         try {
             String trans = TransactionConverter.convertTransactionToString(transaction).trim();
             FileUtilDAO.writeToFile(LINK_TRANSACTIONS, trans);
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterDAOException e) {
             String mes = "Transaction is null";
             throw new DAOException(mes, e);
-        } catch (InvalidFieldException e) {
+        } catch (InvalidFieldDAOException e) {
             String mes = "Transaction has incorrect fields";
             throw new DAOException(mes, e);
         } catch (UtilException e) {
@@ -69,13 +67,13 @@ public class FileTransactionDAO implements ITransactionDAO {
         try {
             String allTrans = FileUtilDAO.readFile(LINK_TRANSACTIONS).trim();
             String[] separatedTrans = allTrans.split("\n");
-            for (int i = ZERO; i < separatedTrans.length; i++) {
+            for (int i = 0; i < separatedTrans.length; i++) {
                 transactions.add(TransactionConverter.parseTransactionToObject(separatedTrans[i]));
             }
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterDAOException e) {
             String mes = "Data is null or empty";
             throw new DAOException(mes,e);
-        } catch (InvalidFieldException e) {
+        } catch (InvalidFieldDAOException e) {
             String mes = "Invalid values of fields in data";
             throw new DAOException(mes,e);
         } catch (UtilException e) {
@@ -104,10 +102,10 @@ public class FileTransactionDAO implements ITransactionDAO {
                     FileUtilDAO.writeToFile(LINK_TRANSACTIONS,TransactionConverter.convertTransactionToString(transaction));
                 }
             }
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterDAOException e) {
             String mes = "Data is null or empty";
             throw new DAOException(mes,e);
-        } catch (InvalidFieldException e) {
+        } catch (InvalidFieldDAOException e) {
             String mes = "Invalid values of fields in data";
             throw new DAOException(mes,e);
         } catch (UtilException e) {
@@ -127,10 +125,10 @@ public class FileTransactionDAO implements ITransactionDAO {
                     FileUtilDAO.writeToFile(LINK_TRANSACTIONS,TransactionConverter.convertTransactionToString(transaction1));
                 }
             }
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterDAOException e) {
             String mes = "Data is null or empty";
             throw new DAOException(mes,e);
-        } catch (InvalidFieldException e) {
+        } catch (InvalidFieldDAOException e) {
             String mes = "Invalid values of fields in data";
             throw new DAOException(mes,e);
         } catch (UtilException e) {

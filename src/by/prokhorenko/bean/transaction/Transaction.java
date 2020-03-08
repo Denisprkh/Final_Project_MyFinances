@@ -4,14 +4,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
-import  static by.prokhorenko.constants.ConstantDigits.*;
-
 public class Transaction implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
 
-    private static long transactionCounter = ZERO;
+    private static long transactionCounter = 0;
 
     private long transactionId;
     private Date date;

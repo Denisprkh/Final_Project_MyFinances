@@ -3,9 +3,8 @@ package by.prokhorenko.dao.impl;
 import by.prokhorenko.bean.user.User;
 import by.prokhorenko.dao.IUserDAO;
 import by.prokhorenko.dao.exception.DAOException;
-import by.prokhorenko.dao.exception.InvalidFieldException;
-import by.prokhorenko.dao.exception.InvalidParameterException;
-import static by.prokhorenko.constants.ConstantDigits.*;
+import by.prokhorenko.dao.exception.InvalidFieldDAOException;
+import by.prokhorenko.dao.exception.InvalidParameterDAOException;
 import by.prokhorenko.util.convertor.UserConverter;
 import by.prokhorenko.util.FileUtilDAO;
 import by.prokhorenko.util.exception.UtilException;
@@ -26,10 +25,10 @@ public class FileUserDAO implements IUserDAO {
         try {
             String trans = UserConverter.convertUserToString(user).trim();
             FileUtilDAO.writeToFile(LINK_USERS, trans);
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterDAOException e) {
             String mes = "Transaction is null";
             throw new DAOException(mes, e);
-        } catch (InvalidFieldException e) {
+        } catch (InvalidFieldDAOException e) {
             String mes = "User has incorrect fields";
             throw new DAOException(mes);
         } catch (UtilException e) {
@@ -54,7 +53,7 @@ public class FileUserDAO implements IUserDAO {
     @Override
     public User get(String login) throws DAOException {
         if(Validation.isNull(login)){
-            String mes = "Login is null";
+            String mes = "Login_is_null";
             throw new DAOException(mes);
         }
         ArrayList<User> users = getAll();
@@ -64,7 +63,7 @@ public class FileUserDAO implements IUserDAO {
                 return user;
             }
         }
-        String mes = "User with such id doesn't exist";
+        String mes = "User with such login doesn't exist";
         throw new DAOException(mes);
     }
 
@@ -74,13 +73,13 @@ public class FileUserDAO implements IUserDAO {
         try {
             String notSeparated = FileUtilDAO.readFile(LINK_USERS).trim();
             String[] separatedUsers = notSeparated.split("\\n");
-            for(int i = ZERO; i < separatedUsers.length; i++){
+            for(int i = 0; i < separatedUsers.length; i++){
                 users.add(UserConverter.parseUserToObject(separatedUsers[i]));
             }
-        } catch (InvalidFieldException e) {
+        } catch (InvalidFieldDAOException e) {
             String mes = "Invalid amount of fields";
             throw new DAOException(mes,e);
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterDAOException e) {
             String mes = "Data is null";
             throw new DAOException(mes,e);
         } catch (UtilException e) {
@@ -106,10 +105,10 @@ public class FileUserDAO implements IUserDAO {
                     FileUtilDAO.writeToFile(LINK_USERS, UserConverter.convertUserToString(user));
                 }
             }
-        } catch (InvalidFieldException e) {
+        } catch (InvalidFieldDAOException e) {
             String mes = "User has incorrect fields";
             throw new DAOException(mes,e);
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterDAOException e) {
             String mes = "User is null";
             throw new DAOException(mes,e);
         } catch (UtilException e) {
@@ -129,10 +128,10 @@ public class FileUserDAO implements IUserDAO {
                     FileUtilDAO.writeToFile(LINK_USERS, UserConverter.convertUserToString(user));
                 }
             }
-        } catch (InvalidFieldException e) {
+        } catch (InvalidFieldDAOException e) {
             String mes = "User has incorrect fields";
             throw new DAOException(mes,e);
-        } catch (InvalidParameterException e) {
+        } catch (InvalidParameterDAOException e) {
             String mes = "User is null";
             throw new DAOException(mes,e);
         } catch (UtilException e) {

@@ -19,7 +19,7 @@ public class FileUtilDAO {
                 stringBuilder.append((char) smb);
             }
         } catch (IOException e) {
-            String mes = "File problems happened";
+            String mes = "File reading error";
             throw new UtilException(mes,e);
         }
         return stringBuilder.toString();
@@ -36,7 +36,7 @@ public class FileUtilDAO {
 
 
         }catch (IOException e){
-            String mes = "File problems happened";
+            String mes = "File writing error";
             throw new UtilException(mes,e);
         }
 
@@ -50,7 +50,7 @@ public class FileUtilDAO {
         try(FileWriter fileWriter = new FileWriter(file)){
             fileWriter.append(" ");
         }catch (IOException e){
-            String mes = "File problems happened";
+            String mes = "File cleaning error";
             throw new UtilException(mes,e);
         }
     }

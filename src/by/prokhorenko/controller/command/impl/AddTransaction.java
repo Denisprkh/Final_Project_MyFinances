@@ -4,21 +4,23 @@ import by.prokhorenko.bean.transaction.Transaction;
 import by.prokhorenko.bean.transaction.TransactionType;
 import by.prokhorenko.bean.user.User;
 import by.prokhorenko.controller.command.Command;
+import by.prokhorenko.controller.exception.ControllerException;
 import by.prokhorenko.service.ITransactionService;
 import by.prokhorenko.service.IUserService;
 import by.prokhorenko.service.exception.ServiceException;
 import by.prokhorenko.service.factory.ServiceFactory;
 import by.prokhorenko.util.Parser;
 import by.prokhorenko.validation.Validation;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+
 public class AddTransaction implements Command {
     @Override
-    public String execute(String request) {
+    public String execute(String request) throws ControllerException {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         ITransactionService transactionService = serviceFactory.getTransactionService();
         IUserService userService = serviceFactory.getUserService();
@@ -45,8 +47,11 @@ public class AddTransaction implements Command {
             response = "Transaction was added to your transaction list";
         } catch (ServiceException | ParseException e) {
             response = "Problems with adding, please retry";
+            String mes = "Adding transaction error";
+            throw new ControllerException(mes,e);
             //write log
         }
+
 
 
 

@@ -4,7 +4,6 @@ import by.prokhorenko.bean.transaction.Transaction;
 import by.prokhorenko.bean.transaction.TransactionType;
 import by.prokhorenko.bean.user.User;
 import by.prokhorenko.dao.ITransactionDAO;
-import by.prokhorenko.dao.IUserDAO;
 import by.prokhorenko.dao.exception.DAOException;
 import by.prokhorenko.dao.factory.DAOFactory;
 import by.prokhorenko.service.ITransactionService;
@@ -18,7 +17,7 @@ public class TransactionServiceImpl implements ITransactionService {
 
     private DAOFactory daoFactory = DAOFactory.getInstance();
     private ITransactionDAO transactionDAO = daoFactory.getTransactionDAO();
-    private IUserDAO userDAO = daoFactory.getUserDAO();
+
 
     @Override
     public void add(Transaction transaction) throws ServiceException {
@@ -63,46 +62,6 @@ public class TransactionServiceImpl implements ITransactionService {
     }
 
     @Override
-    public ArrayList<Transaction> getAllUsersExpenses(User user) throws ServiceException {
-        if(Validation.isNull(user)){
-            String mes = "User has null value";
-            throw new ServiceException(mes);
-        }
-
-        ArrayList<Transaction> allUsersTransactions = getAllUsersTransactions(user);
-
-        ArrayList<Transaction> usersExpenses = new ArrayList<>();
-
-        for(Transaction transaction : allUsersTransactions){
-            if(transaction.getTransactionType().equals(TransactionType.EXPENSE)){
-                usersExpenses.add(transaction);
-            }
-        }
-
-        return usersExpenses;
-    }
-
-    @Override
-    public ArrayList<Transaction> getAllUsersIncomes(User user) throws ServiceException {
-        if(Validation.isNull(user)){
-            String mes = "User has null value";
-            throw new ServiceException(mes);
-        }
-
-        ArrayList<Transaction> allUsersTransactions = getAllUsersTransactions(user);
-
-        ArrayList<Transaction> usersIncomes = new ArrayList<>();
-
-        for(Transaction transaction : allUsersTransactions){
-            if(transaction.getTransactionType().equals(TransactionType.INCOME)){
-                usersIncomes.add(transaction);
-            }
-        }
-
-        return usersIncomes;
-    }
-
-    @Override
     public ArrayList<Transaction> getAllUsersTransactionsInAPeriod(User user, Date startPeriod, Date endPeriod)
             throws ServiceException {
         if(Validation.isNull(user)){
@@ -130,34 +89,36 @@ public class TransactionServiceImpl implements ITransactionService {
     }
 
     @Override
-    public ArrayList<Transaction> getAllUsersIncomesInAPeriod(User user, Date startPeriod, Date endPeriod) throws ServiceException {
+    public ArrayList<Transaction> getAllUsersTransactionsOfCertainType(User user, TransactionType transactionType) throws ServiceException {
         if(Validation.isNull(user)){
             String mes = "User has null value";
             throw new ServiceException(mes);
         }
-        if(Validation.isNull(startPeriod) || Validation.isNull(endPeriod)){
-            String mes = "Date has null value";
-            throw new ServiceException(mes);
-        }
-        if(!Validation.datePeriodIsCorrect(startPeriod,endPeriod)){
-            String mes = "Incorrect date period";
+        if(Validation.isNull(transactionType)){
+            String mes = "Transaction type is null";
             throw new ServiceException(mes);
         }
 
-        ArrayList<Transaction> usersTransactionsInAPeriod = getAllUsersTransactionsInAPeriod(user,startPeriod,endPeriod);
-        ArrayList<Transaction> usersIncomesInAPeriod  = new ArrayList<>();
-        for(Transaction transaction : usersTransactionsInAPeriod){
-            if(transaction.getTransactionType().equals(TransactionType.INCOME)){
-                usersIncomesInAPeriod.add(transaction);
+        ArrayList<Transaction> allUsersTransactions = getAllUsersTransactions(user);
+
+        ArrayList<Transaction> usersTransactionsOfType = new ArrayList<>();
+
+        for(Transaction transaction : allUsersTransactions){
+            if(transaction.getTransactionType().equals(transactionType)){
+                usersTransactionsOfType.add(transaction);
             }
         }
 
-        return usersIncomesInAPeriod;
+        return usersTransactionsOfType;
     }
-
     @Override
-    public ArrayList<Transaction> getAllUsersExpensesInAPeriod(User user, Date startPeriod, Date endPeriod) throws ServiceException {
+    public ArrayList<Transaction> getAllUsersTransactionsOfCertainTypeInAPeriod
+            (User user, Date startPeriod, TransactionType transactionType,Date endPeriod) throws ServiceException {
         if(Validation.isNull(user)){
+            String mes = "User has null value";
+            throw new ServiceException(mes);
+        }
+        if(Validation.isNull(transactionType)){
             String mes = "User has null value";
             throw new ServiceException(mes);
         }
@@ -170,15 +131,16 @@ public class TransactionServiceImpl implements ITransactionService {
             throw new ServiceException(mes);
         }
 
+
         ArrayList<Transaction> usersTransactionsInAPeriod = getAllUsersTransactionsInAPeriod(user,startPeriod,endPeriod);
-        ArrayList<Transaction> usersExpensesInAPeriod  = new ArrayList<>();
+        ArrayList<Transaction> usersTransactionsOfCertainTypeInAPeriod  = new ArrayList<>();
         for(Transaction transaction : usersTransactionsInAPeriod){
-            if(transaction.getTransactionType().equals(TransactionType.EXPENSE)){
-                usersExpensesInAPeriod.add(transaction);
+            if(transaction.getTransactionType().equals(transactionType)){
+                usersTransactionsOfCertainTypeInAPeriod.add(transaction);
             }
         }
 
-        return usersExpensesInAPeriod;
+        return usersTransactionsOfCertainTypeInAPeriod;
     }
 
 

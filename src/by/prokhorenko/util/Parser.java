@@ -1,7 +1,5 @@
 package by.prokhorenko.util;
 
-import by.prokhorenko.validation.Validation;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
