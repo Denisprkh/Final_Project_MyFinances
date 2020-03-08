@@ -63,20 +63,32 @@ public class User implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id &&
-                Objects.equals(login, user.login) &&
-                Objects.equals(password, user.password);
+        User other = (User) o;
+       if(id != other.id) return false;
+       if(login == null){
+           if(other.login != null) return false;
+       }else if(!login.equals(other.login)) return false;
+       if(password == null){
+           if(other.password != null) return false;
+       }else if(!password.equals(other.password)) return false;
+
+       return true;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(login, password, id);
+    public int hashCode(){
+        final int PRIME = 31;
+        int result = 1;
+        result = result * PRIME + (int) (id ^ (id >>> 32));
+        result = result * PRIME + (login == null ? 0 : login.hashCode());
+        result = result * PRIME + (password == null ? 0 : password.hashCode());
+
+        return result;
     }
 
     @Override
     public String toString() {
-        return "User{" +
+        return getClass().getSimpleName()+"{" +
                 "login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", id=" + id +

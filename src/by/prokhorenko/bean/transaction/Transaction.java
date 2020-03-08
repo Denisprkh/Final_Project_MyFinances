@@ -95,26 +95,46 @@ public class Transaction implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Transaction that = (Transaction) o;
-        return transactionId == that.transactionId &&
-                usersId == that.usersId &&
-                Objects.equals(date, that.date) &&
-                Objects.equals(amount, that.amount) &&
-                transactionType == that.transactionType &&
-                Objects.equals(comment, that.comment);
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Transaction other = (Transaction) o;
+        if(transactionId != other.transactionId) return false;
+        if(usersId != other.usersId) return false;
+        if(transactionType == null){
+            if(other.transactionType != null) return false;
+        }else if(!transactionType.equals(other.transactionType)) return false;
+        if(date == null){
+            if(other.date != null) return false;
+        }else if(!date.equals(other.date)) return false;
+        if(amount == null){
+            if(other.amount != null) return false;
+        }else if(!amount.equals(other.amount)) return false;
+        if(comment == null){
+            if(other.comment != null) return false;
+        }else if(!comment.equals(other.comment)) return false;
+        return true;
     }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(transactionId, date, amount, transactionType, usersId, comment);
+
+        final int PRIME = 31;
+        int result = 1;
+        result = result * PRIME + (int) (transactionId ^ (transactionId >>> 32));
+        result = result * PRIME + (int) (usersId ^ (usersId >>> 32));
+        result = result * PRIME + (date == null ? 0 : date.hashCode());
+        result = result * PRIME + (amount == null ? 0 : amount.hashCode());
+        result = result * PRIME + (transactionType == null ? 0 : transactionType.hashCode());
+        result = result * PRIME + (comment == null ? 0 : comment.hashCode());
+
+        return result;
     }
 
     @Override
     public String toString() {
-        return "Transaction{" +
+        return getClass().getSimpleName()+"{" +
                 "transactionId=" + transactionId +
                 ", date=" + date +
                 ", amount=" + amount +
