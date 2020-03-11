@@ -1,6 +1,7 @@
 package by.prokhorenko.bean.transaction;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.Objects;
 
@@ -20,6 +21,12 @@ public class Transaction implements Serializable {
 
     public Transaction(){
         super();
+        this.transactionId = 0;
+        this.date = new Date();
+        this.amount = new BigDecimal(BigInteger.ZERO);
+        this.transactionType = TransactionType.EXPENSE;
+        this.usersId = 0;
+        this.comment = "Empty transaction";
     }
 
     public Transaction(TransactionType transactionType, BigDecimal amount, Date date, long usersId, String comment){
