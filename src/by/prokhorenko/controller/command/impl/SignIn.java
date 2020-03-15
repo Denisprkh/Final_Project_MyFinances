@@ -12,7 +12,7 @@ public class SignIn implements Command {
     @Override
     public String execute(String request) throws ControllerException {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        UserServiceImpl userService = serviceFactory.getUserService();
+        IUserService userService = serviceFactory.getUserService();
 
         String login = Parser.getValueParam(request,"login");
         String password = Parser.getValueParam(request,"password");
