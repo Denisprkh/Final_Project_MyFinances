@@ -2,13 +2,15 @@ package by.prokhorenko.service.factory;
 
 import by.prokhorenko.service.impl.TransactionServiceImpl;
 import by.prokhorenko.service.impl.UserServiceImpl;
+import by.prokhorenko.dao.ITransactionDAO;
+import by.prokhorenko.dao.IUserDAO;
 
 public class ServiceFactory {
 
     private static final ServiceFactory INSTANCE = new ServiceFactory();
 
-    private final TransactionServiceImpl transactionService = new TransactionServiceImpl();
-    private final UserServiceImpl userService = new UserServiceImpl();
+    private final ITransactionService transactionService = new TransactionServiceImpl();
+    private final IUserService userService = new UserServiceImpl();
 
     private ServiceFactory(){
 
