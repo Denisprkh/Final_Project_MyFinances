@@ -6,7 +6,7 @@ import by.prokhorenko.dao.impl.FileTransactionDAO;
 import by.prokhorenko.dao.impl.FileUserDAO;
 
 public class DAOFactory {
-    private final static DAOFactory instance = new DAOFactory();
+    private final static DAOFactory INSTANCE = new DAOFactory();
 
     private final IUserDAO userDAO = new FileUserDAO();
     private final ITransactionDAO transactionDAO = new FileTransactionDAO();
@@ -14,7 +14,7 @@ public class DAOFactory {
     private DAOFactory() {};
 
     public static DAOFactory getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     public IUserDAO getUserDAO() {
